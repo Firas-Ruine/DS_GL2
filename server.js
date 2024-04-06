@@ -30,6 +30,22 @@ app.put('/tasks/:id', async (req, res) => {
     res.json(task);
 });
 
+/**
+ * This endpoint updates the isCompleted field of a task.
+ * 
+ * @param {string} id - The id of the task to update.
+ * 
+ * @param {boolean} isCompleted - The new value of the isCompleted field.
+ * 
+ * @returns {object} The updated task.
+ */
+app.patch('/tasks/:id', async (req, res) => {
+    const { id } = req.params;
+    const { isCompleted } = req.body;
+    const updatedTask = await Task.findByIdAndUpdate(id, { isCompleted: isCompleted }, { new: true });
+    res.json(updatedTask);
+});
+
 app.delete('/tasks/:id', async (req, res) => {
     const { id } = req.params;
     await Task.findByIdAndDelete(id);

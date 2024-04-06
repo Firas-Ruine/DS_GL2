@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  backend:
+    container_name: mern-backend
+    build: ./
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/mern-stack
+
+  frontend:
+    container_name: mern-frontend
+    build: ./client
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      - REACT_APP_API_URL=http://backend:5000
+  
+  mongo:
+    container_name: mern-mongo
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    
